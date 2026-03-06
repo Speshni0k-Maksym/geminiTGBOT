@@ -1,6 +1,7 @@
 import os
 import requests
 from datetime import datetime
+import sys
 
 from fastapi import  FastAPI, Request
 from google import genai
@@ -9,8 +10,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def log_message(message: str):
-    with open('bot.log', 'a', encoding='utf-8') as f:
-        f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {message}\n")
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    log_text = f"{timestamp} - {message}"
+    print(log_text, file=sys.stdout)
+    try:
+        with open('bot.txt', 'a', encoding='utf-8') as f:
+            f.write(log_text + "\n")
+    except Exception as e:
+        print(f"Could not write to file: {e}")
 
 TELEGRAM_BOT_TOKEN=os.getenv("TELEGRAM_BOT_TOKEN")
 GEMINI_API_KEY=os.getenv("GEMINI_API_KEY")
