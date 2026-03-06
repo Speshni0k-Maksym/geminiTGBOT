@@ -22,7 +22,7 @@ genclient = genai.Client(api_key=GEMINI_API_KEY)
 def default():
     return {"status": "Bot is running"}
 
-@app.get("/webhook")
+@app.post("/webhook")
 async def webhook(request: Request):
     data = await request.json()
 
